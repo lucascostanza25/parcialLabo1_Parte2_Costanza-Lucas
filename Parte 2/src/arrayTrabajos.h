@@ -12,6 +12,7 @@
 #define TS 4
 #define LIBRE 0
 #define OCUPADO 1
+#include "arrayServicio.h"
 
 typedef struct
 {
@@ -19,15 +20,6 @@ typedef struct
 	int mes;
 	int anio;
 }eFecha;
-
-typedef struct
-{
-	int idServicio;
-	char descripcionServicio[26];
-	float precioServicio;
-
-	int isEmpty;
-}eServicio;
 
 typedef struct
 {
@@ -51,7 +43,7 @@ eTrabajo pedirDatosTrabajo();
  * \param listaTrabajo
  * \param tam del array
  */
-void inicializarTrabajo(eTrabajo listaTrabajo[], int tam);
+void inicializarTrabajo(eTrabajo *listaTrabajo, int tam);
 
 /**
  * \brief
@@ -71,7 +63,7 @@ void mostrarUnTrabajo(eTrabajo);
  * \param tam tam del array
  * \return retorna estado
  */
-int mostrarListadoTrabajos(eTrabajo listaTrabajo[], int tam);
+int mostrarListadoTrabajos(eTrabajo *listaTrabajo, int tam);
 
 /**
  * \brief
@@ -83,7 +75,7 @@ int mostrarListadoTrabajos(eTrabajo listaTrabajo[], int tam);
  * \param idTrabajo autoincremental
  * \return estado
  */
-int altaTrabajo(eTrabajo listaTrabajo[], int tam, int *idTrabajo);
+int altaTrabajo(eTrabajo *listaTrabajo, int tam, int *idTrabajo);
 
 /**
  * \brief
@@ -94,7 +86,7 @@ int altaTrabajo(eTrabajo listaTrabajo[], int tam, int *idTrabajo);
  * \param tam del array
  * \return estado
  */
-int buscarTrabajoLibre(eTrabajo listaTrabajo[], int tam);
+int buscarTrabajoLibre(eTrabajo *listaTrabajo, int tam);
 
 /**
  * \brief
@@ -107,7 +99,7 @@ int buscarTrabajoLibre(eTrabajo listaTrabajo[], int tam);
  * \param tam del array servicio
  * \return
  */
-int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[], int tamServicio);
+int modificarTrabajo(eTrabajo *listaTrabajo, int tam, eServicio *listaServicio, int tamServicio);
 
 /**
  * \brief
@@ -118,7 +110,7 @@ int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[]
  * \param tam del array
  * \return estado
  */
-int bajaTrabajo(eTrabajo listaTrabajo[], int tam);
+int bajaTrabajo(eTrabajo *listaTrabajo, int tam);
 
 /**
  * \brief
@@ -128,7 +120,7 @@ int bajaTrabajo(eTrabajo listaTrabajo[], int tam);
  * \param listaTrabajo
  * \param tam del array
  */
-void ordenarTrabajos(eTrabajo listaTrabajo[], int tam);
+void ordenarTrabajos(eTrabajo *listaTrabajo, int tam);
 
 /**
  * \brief
@@ -141,18 +133,9 @@ void ordenarTrabajos(eTrabajo listaTrabajo[], int tam);
  * \param tamServicio
  * \return estado
  */
-int listadoTrabajosYServicios(eTrabajo listaTrabajo[], int tamTrabajo, eServicio listaServicios[], int tamServicio);
+int listadoTrabajosYServicios(eTrabajo *listaTrabajo, int tamTrabajo, eServicio listaServicios[], int tamServicio);
 
-/**
- * \brief
- *
- * \pre
- * \post
- * \param listaServicios
- * \param tam
- * \return estado
- */
-int listadoServicios(eServicio listaServicios[], int tam);
+int sumaPrecios(eServicio *listaServicios, int tamServicio, eTrabajo *listaTrabajo, int tamTrabajo);
 
 
 #endif /* ARRAYTRABAJOS_H_ */

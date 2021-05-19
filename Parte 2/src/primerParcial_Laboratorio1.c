@@ -8,26 +8,24 @@ Division 1B
 #include <stdio.h>
 #include <stdlib.h>
 #include "arrayTrabajos.h"
+#include "arrayServicio.h"
 #define T 5
 #define TS 4
 #define LIBRE 0
 #define OCUPADO 1
 
-//Declaracion
-
 int main(void) {
 	setbuf(stdout, NULL);
 	eTrabajo listaTrabajo[T];
-	eServicio listaServicio[TS]={{20000, "Limpieza", 250, OCUPADO},
-								{20001, "Parche", 300, OCUPADO},
-								{20002, "Centrado", 400, OCUPADO},
-								{20003, "Cadena", 350, OCUPADO}};
+	eServicio listaServicio[TS];
 	int menu;
 	int res;
 	int idTrabajo=0;
 	int flagMenu=0;
 	int menuInformes;
 	inicializarTrabajo(listaTrabajo, T);
+	inicializarServicios(listaServicio, TS);
+	hardcodeoServicios(listaServicio,TS);
 
 	do
 	{
@@ -100,6 +98,7 @@ int main(void) {
 							"1.Mostrar listado de trabajos\n"
 							"2.Mostrar listado de servicios\n"
 							"3.Mostrar listado de trabajos con sus servicios\n"
+							"4.Total gastado\n"
 							"Seleccione una opcion: ");
 					scanf("%d", &menuInformes);
 					system("cls");
@@ -135,6 +134,17 @@ int main(void) {
 							else
 							{
 								printf("No hay trabajos y servicios para mostrar!\n");
+							}
+						break;
+
+						case 4:
+							if(sumaPrecios(listaServicio, TS, listaTrabajo, T)!=-1)
+							{
+								printf("\nSuma de los servicios prestados!\n");
+							}
+							else
+							{
+								printf("\nNo se pudo completar la suma!\n");
 							}
 						break;
 					}

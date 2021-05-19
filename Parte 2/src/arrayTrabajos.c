@@ -130,7 +130,7 @@ int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[]
 							"1.Marca\n"
 							"2.Servicio\n"
 							"\nBicicleta y servicio seleccionado:\n"
-							"\n-> ID: %d  Marca: %s  Rodado: %d ID Servicio: %d  Descripcion servicio: %s  Precio: $%.2f\n"
+							"\n-> ID: %d ~ Marca: %s ~ Rodado: %d ~ ID Servicio: %d ~ Descripcion servicio: %s ~ Precio: $%.2f\n"
 							"\nSeleccione una opcion: ",
 							listaTrabajo[i].idTrabajo, listaTrabajo[i].marcaBicicleta, listaTrabajo[i].rodadoBicicleta,
 							listaServicio[j].idServicio, listaServicio[j].descripcionServicio, listaServicio[j].precioServicio);
@@ -149,7 +149,6 @@ int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[]
 						break;
 					}
 				}
-				break;
 			}
 		}
 		break;
@@ -164,24 +163,18 @@ int bajaTrabajo(eTrabajo listaTrabajo[], int tam)
 	int retorno=-1;
 	int idIngresado;
 
-	if(listaTrabajo->isEmpty==OCUPADO)
+
+	for(i=0; i<tam; i++)
 	{
 		printf("Trabajos disponibles para dar de baja!\n");
 		mostrarListadoTrabajos(listaTrabajo, tam);
 		utn_getNumero(&idIngresado, "Ingrese el ID del trabajo a modificar: ", "Error, ID incorrecto\n", 1, 10, 4);
-		for(i=0; i<tam; i++)
+		if(idIngresado==listaTrabajo[i].idTrabajo)
 		{
-			if(idIngresado==listaTrabajo[i].idTrabajo)
-			{
-				listaTrabajo[i].isEmpty=LIBRE;
-				retorno=0;
-				break;
-			}
+			listaTrabajo[i].isEmpty=LIBRE;
+			retorno=0;
+			break;
 		}
-	}
-	else
-	{
-		printf("No hay trabajos disponibles para dar de baja!\n");
 	}
 
 	return retorno;
@@ -234,19 +227,29 @@ int listadoTrabajosYServicios(eTrabajo listaTrabajo[], int tamTrabajo, eServicio
 	return retorno;
 }
 
-int listadoServicios(eServicio listaServicios[], int tam)
+int sumaPrecios(eServicio *listaServicios, int tamServicio, eTrabajo *listaTrabajo, int tamTrabajo)
 {
 	int i;
+	int j;
 	int retorno=-1;
+	float acumuladorPrecio=0;
 
-	for(i=0; i<tam; i++)
+	if(listaServicios!=NULL && tamServicio>0)
 	{
-		printf("ID: %d -- DESCRIPCION: %s -- PRECIO: $%.2f\n",
-				listaServicios[i].idServicio,
-				listaServicios[i].descripcionServicio,
-				listaServicios[i].precioServicio);
-		retorno=0;
+		for(i=0; i<tamServicio; i++)
+		{
+			for(j=0; j<tamTrabajo; j++)
+			{
+				if(listaTrabajo[j].idServicio==listaServicios[i].idServicio)
+				{
+					acumuladorPrecio+=listaServicios[i].precioServicio;
+					retorno=0;
+				}
+			}
+		}
 	}
+
+	printf("La suma de los servicios prestados es: $%.2f", acumuladorPrecio);
 
 	return retorno;
 }

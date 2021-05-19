@@ -114,24 +114,23 @@ int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[]
 	int idIngresado;
 	int eleccion;
 
-	if(listaTrabajo->isEmpty==OCUPADO)
+	for(i=0; i<tam; i++)
 	{
-		printf("Trabajos y servicios disponibles para modificar!\n");
-		listadoTrabajosYServicios(listaTrabajo, tam, listaServicio, tamServicio);
-		utn_getNumero(&idIngresado, "\nIngrese el ID del trabajo a modificar: ", "Error, ID incorrecto\n", 1, 10, 4);
-		system("cls");
-		for(i=0; i<tam; i++)
+		for(j=0; j<tamServicio; j++)
 		{
-			for(j=0; j<tamServicio; j++)
+			if(listaServicio[i].isEmpty==OCUPADO && listaTrabajo[j].isEmpty==OCUPADO)
 			{
+				printf("Trabajos y servicios disponibles para modificar!\n");
+				listadoTrabajosYServicios(listaTrabajo, tam, listaServicio, tamServicio);
+				utn_getNumero(&idIngresado, "\nIngrese el ID del trabajo a modificar: ", "Error, ID incorrecto\n", 1, 10, 4);
+				system("cls");
 				if(idIngresado==listaTrabajo[i].idTrabajo && listaTrabajo[i].idServicio==listaServicio[j].idServicio)
 				{
 					printf("-- MODIFICAR --\n"
 							"1.Marca\n"
 							"2.Servicio\n"
 							"\nBicicleta y servicio seleccionado:\n"
-							"\n   ID Trabajo Marca Rodado ID Servicio Descripcion Precio"
-							"\n-> %d         %s         %d         %d         %s         %.2f\n"
+							"\n-> ID: %d  Marca: %s  Rodado: %d ID Servicio: %d  Descripcion servicio: %s  Precio: $%.2f\n"
 							"\nSeleccione una opcion: ",
 							listaTrabajo[i].idTrabajo, listaTrabajo[i].marcaBicicleta, listaTrabajo[i].rodadoBicicleta,
 							listaServicio[j].idServicio, listaServicio[j].descripcionServicio, listaServicio[j].precioServicio);
@@ -141,24 +140,20 @@ int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[]
 					{
 						case 1:
 							utn_getString(listaTrabajo[i].marcaBicicleta, "Ingrese la marca de la bicicleta: ", "Error! marca incorrecta\n", 21, 4);
+							retorno=0;
 						break;
 
 						case 2:
 							utn_getString(listaServicio[j].descripcionServicio, "Ingrese la descripcion del servicio: ", "Error! servicio incorrecto\n", 21, 4);
+							retorno=0;
 						break;
-
 					}
-					retorno=0;
 				}
-
+				break;
 			}
 		}
+		break;
 	}
-	else
-	{
-		printf("No hay trabajos disponibles para editar!\n");
-	}
-
 
 	return retorno;
 }

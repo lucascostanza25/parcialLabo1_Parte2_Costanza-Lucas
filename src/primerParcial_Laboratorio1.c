@@ -25,6 +25,8 @@ int main(void) {
 	int menu;
 	int res;
 	int idTrabajo=0;
+	int flagMenu=0;
+	int menuInformes;
 	inicializarTrabajo(listaTrabajo, T);
 
 	do
@@ -33,10 +35,7 @@ int main(void) {
 				"1.Alta trabajo\n"
 				"2.Modificar trabajo\n"
 				"3.Baja trabajo\n"
-				"4.Listado de trabajo\n"
-				"5.Listado de servicios\n"
-				"6.Listar servicios y trabajos\n"
-				"7.Precio total\n"
+				"4.Informar\n"
 				"Seleccione una opcion: ");
 		scanf("%d", &menu);
 		system("cls");
@@ -52,65 +51,97 @@ int main(void) {
 				{
 					printf("No hay mas espacio para listar trabajo!\n");
 				}
+				flagMenu=1;
 				system("Pause");
 			break;
 
 			case 2:
-				if(modificarTrabajo(listaTrabajo, T, listaServicio, TS)!=-1)
+				if(flagMenu!=0)
 				{
-					printf("Trabajo modificado con exito!\n");
+					if(modificarTrabajo(listaTrabajo, T, listaServicio, TS)!=-1)
+					{
+						printf("Trabajo modificado con exito!\n");
+					}
+					else
+					{
+						printf("Se cancelo la modificacion del trabajo!\n");
+					}
 				}
 				else
 				{
-					printf("Se cancelo la modificacion del trabajo!\n");
+					printf("Primero ingrese un trabajo!\n");
 				}
 				system("pause");
 			break;
 
 			case 3:
-				if(bajaTrabajo(listaTrabajo, T)!=-1)
+				if(flagMenu!=0)
 				{
-					printf("Trabajo dado de baja con exito!\n");
+					if(bajaTrabajo(listaTrabajo, T)!=-1)
+					{
+						printf("Trabajo dado de baja con exito!\n");
+					}
+					else
+					{
+						printf("Se cancelo la baja del trabajo!\n");
+					}
 				}
 				else
 				{
-					printf("Se cancelo la baja del trabajo!\n");
+					printf("Primero ingrese un trabajo!\n");
 				}
 				system("pause");
 			break;
 
 			case 4:
-				if(mostrarListadoTrabajos(listaTrabajo, T)!=-1)
+				if(flagMenu!=0)
 				{
-					printf("Listado de trabajos ordenados por año!\n");
-				}
-				else
-				{
-					printf("No hay trabajos que mostrar!\n");
-				}
-				system("pause");
-			break;
+					printf("-- INFORMAR --\n"
+							"1.Mostrar listado de trabajos\n"
+							"2.Mostrar listado de servicios\n"
+							"3.Mostrar listado de trabajos con sus servicios\n"
+							"Seleccione una opcion: ");
+					scanf("%d", &menuInformes);
+					system("cls");
+					switch(menuInformes)
+					{
+						case 1:
+							if(mostrarListadoTrabajos(listaTrabajo, T)!=-1)
+							{
+								printf("Listado de trabajos ordenados por año!\n");
+							}
+							else
+							{
+								printf("No hay trabajos que mostrar!\n");
+							}
+						break;
 
-			case 5:
-				if(listadoServicios(listaServicio, TS)!=-1)
-				{
-					printf("Lista de servicios!\n");
-				}
-				else
-				{
-					printf("No hay servicios disponibles para mostrar!\n");
-				}
-				system("pause");
-			break;
+						case 2:
+							if(listadoServicios(listaServicio, TS)!=-1)
+							{
+								printf("Lista de servicios!\n");
+							}
+							else
+							{
+								printf("No hay servicios disponibles para mostrar!\n");
+							}
+						break;
 
-			case 6:
-				if(listadoTrabajosYServicios(listaTrabajo, T, listaServicio, TS)!=-1)
-				{
-					printf("\nListado de trabajos con sus servicios!\n");
+						case 3:
+							if(listadoTrabajosYServicios(listaTrabajo, T, listaServicio, TS)!=-1)
+							{
+								printf("\nListado de trabajos con sus servicios!\n");
+							}
+							else
+							{
+								printf("No hay trabajos y servicios para mostrar!\n");
+							}
+						break;
+					}
 				}
 				else
 				{
-					printf("No hay trabajos y servicios para mostrar!\n");
+					printf("Primero ingrese un trabajo!\n");
 				}
 				system("pause");
 			break;

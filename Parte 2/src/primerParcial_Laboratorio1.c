@@ -192,7 +192,14 @@ int main(void) {
 						break;
 
 						case 5:
-							ordenarTrabajosPorMarca(listaTrabajo, T, listaServicio, TS, listaBicicleta, TB);
+							if(ordenarTrabajosPorMarca(listaTrabajo, T, listaServicio, TS, listaBicicleta, TB)!=-1)
+							{
+								printf("\nTrabajos ordenados por marca!\n");
+							}
+							else
+							{
+								printf("No se pudo completar el ordenamiento!\n");
+							}
 						break;
 
 						case 6:

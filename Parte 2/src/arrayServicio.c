@@ -58,3 +58,30 @@ int listadoServicios(eServicio *listaServicios, int tamServicio)
 
 	return retorno;
 }
+
+int servicioMasCaro(eServicio *listaServicios, int tamServicio)
+{
+	int i;
+	int j;
+	int retorno=-1;
+	int flagPrecio=0;
+	float masCaro;
+	char descripcionCaro[11];
+
+	for(i=0; i<tamServicio-1; i++)
+	{
+		for(j=i+1; j<tamServicio; j++)
+		{
+			if(listaServicios[i].precioServicio > listaServicios[j].precioServicio || flagPrecio==0)
+			{
+				masCaro=listaServicios[i].precioServicio;
+				strcpy(descripcionCaro, listaServicios[i].descripcionServicio);
+				flagPrecio=1;
+			}
+		}
+	}
+
+	printf("El servicio mas caro es %s, con un precio de %.2f", descripcionCaro, masCaro);
+
+	return retorno;
+}

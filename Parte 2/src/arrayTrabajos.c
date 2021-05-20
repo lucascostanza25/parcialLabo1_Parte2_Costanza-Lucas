@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include "arrayTrabajos.h"
 #include "UTN.h"
-#define T 5
-#define TS 4
 #define LIBRE 0
 #define OCUPADO 1
 
@@ -29,9 +27,13 @@ eTrabajo pedirDatosTrabajo()
 
 	utn_getString(miTrabajo.marcaBicicleta, "Ingrese la marca de la bicicleta: ", "Error! marca incorrecta\n", 21, 4);
 
-	utn_getNumero(&miTrabajo.rodadoBicicleta, "Ingrese el rodado de su bicicleta: ", "Error, rodado incorrecto\n", 1, 29, 4);
-
-	utn_getNumero(&miTrabajo.idServicio, "Ingrese el ID de su servicio: ", "Error, ID incorrecto", 20000, 20020, 4);
+	utn_getNumero(&miTrabajo.rodadoBicicleta, "Ingrese el rodado de su bicicleta (Hasta Nro29): ", "Error, rodado incorrecto\n", 1, 29, 4);
+	printf("Servicios disponibles:\n"
+			"ID: 20000 - Limpieza\n"
+			"ID: 20001 - Parche\n"
+			"ID: 20002 - Centrado\n"
+			"ID: 20003 - Cadena\n");
+	utn_getNumero(&miTrabajo.idServicio, "Ingrese el ID de su servicio: ", "Error, ID incorrecto", 20000, 20003, 4);
 
 	utn_getNumero(&miTrabajo.fechaTrabajo.dia, "Ingrese el dia del servicio: ", "Error, dia incorrecto", 1, 31, 4);
 
@@ -97,7 +99,6 @@ int mostrarListadoTrabajos(eTrabajo listaTrabajo[], int tam)
 	{
 		if(listaTrabajo[i].isEmpty==OCUPADO)
 		{
-			ordenarTrabajos(listaTrabajo, tam);
 			mostrarUnTrabajo(listaTrabajo[i]);
 			retorno=0;
 		}
@@ -114,44 +115,48 @@ int modificarTrabajo(eTrabajo listaTrabajo[], int tam, eServicio listaServicio[]
 	int idIngresado;
 	int eleccion;
 
-	for(i=0; i<tam; i++)
+	if(listaTrabajo!=NULL && tam>0 && listaServicio!=NULL && tamServicio>0)
 	{
-		for(j=0; j<tamServicio; j++)
+		printf("-- MODIFICAR --\n"
+				"\nTrabajos y servicios disponibles para modificar!\n");
+		listadoTrabajosYServicios(listaTrabajo, tam, listaServicio, tamServicio);
+		utn_getNumero(&idIngresado, "\nIngrese el ID del trabajo a modificar: ", "Error, ID incorrecto\n", 1, 10, 4);
+		system("cls");
+		for(i=0; i<tam; i++)
 		{
-			if(listaServicio[i].isEmpty==OCUPADO && listaTrabajo[j].isEmpty==OCUPADO)
+			for(j=0; j<tamServicio; j++)
 			{
-				printf("Trabajos y servicios disponibles para modificar!\n");
-				listadoTrabajosYServicios(listaTrabajo, tam, listaServicio, tamServicio);
-				utn_getNumero(&idIngresado, "\nIngrese el ID del trabajo a modificar: ", "Error, ID incorrecto\n", 1, 10, 4);
-				system("cls");
-				if(idIngresado==listaTrabajo[i].idTrabajo && listaTrabajo[i].idServicio==listaServicio[j].idServicio)
+				if(listaTrabajo[i].isEmpty==OCUPADO && listaServicio[j].isEmpty==OCUPADO)
 				{
-					printf("-- MODIFICAR --\n"
-							"1.Marca\n"
-							"2.Servicio\n"
-							"\nBicicleta y servicio seleccionado:\n"
-							"\n-> ID: %d ~ Marca: %s ~ Rodado: %d ~ ID Servicio: %d ~ Descripcion servicio: %s ~ Precio: $%.2f\n"
-							"\nSeleccione una opcion: ",
-							listaTrabajo[i].idTrabajo, listaTrabajo[i].marcaBicicleta, listaTrabajo[i].rodadoBicicleta,
-							listaServicio[j].idServicio, listaServicio[j].descripcionServicio, listaServicio[j].precioServicio);
-					scanf("%d", &eleccion);
-					system("cls");
-					switch(eleccion)
+					if(idIngresado==listaTrabajo[i].idTrabajo && listaTrabajo[i].idServicio==listaServicio[j].idServicio)
 					{
-						case 1:
-							utn_getString(listaTrabajo[i].marcaBicicleta, "Ingrese la marca de la bicicleta: ", "Error! marca incorrecta\n", 21, 4);
-							retorno=0;
-						break;
+						printf("-- MODIFICAR --\n"
+								"\nBicicleta y servicio seleccionado:\n"
+								"\n-> ID: %d ~ Marca: %s ~ Rodado: %d ~ ID Servicio: %d ~ Descripcion servicio: %s ~ Precio: $%.2f\n"
+								"\nQue desea modificar?\n"
+								"1.Marca\n"
+								"2.Servicio\n"
+								"\nSeleccione una opcion: ",
+								listaTrabajo[i].idTrabajo, listaTrabajo[i].marcaBicicleta, listaTrabajo[i].rodadoBicicleta,
+								listaServicio[j].idServicio, listaServicio[j].descripcionServicio, listaServicio[j].precioServicio);
+						scanf("%d", &eleccion);
+						system("cls");
+						switch(eleccion)
+						{
+							case 1:
+								utn_getString(listaTrabajo[i].marcaBicicleta, "Ingrese la marca de la bicicleta: ", "Error! marca incorrecta\n", 21, 4);
+								retorno=0;
+							break;
 
-						case 2:
-							utn_getString(listaServicio[j].descripcionServicio, "Ingrese la descripcion del servicio: ", "Error! servicio incorrecto\n", 21, 4);
-							retorno=0;
-						break;
+							case 2:
+								utn_getString(listaServicio[j].descripcionServicio, "Ingrese la descripcion del servicio: ", "Error! servicio incorrecto\n", 21, 4);
+								retorno=0;
+							break;
+						}
 					}
 				}
 			}
 		}
-		break;
 	}
 
 	return retorno;
@@ -162,42 +167,73 @@ int bajaTrabajo(eTrabajo listaTrabajo[], int tam)
 	int i;
 	int retorno=-1;
 	int idIngresado;
+	int eleccion;
 
-
-	for(i=0; i<tam; i++)
+	if(listaTrabajo!=NULL && tam>0)
 	{
-		printf("Trabajos disponibles para dar de baja!\n");
+		printf("-- DAR DE BAJA --\n"
+				"\nTrabajos disponibles para dar de baja!\n");
 		mostrarListadoTrabajos(listaTrabajo, tam);
-		utn_getNumero(&idIngresado, "Ingrese el ID del trabajo a modificar: ", "Error, ID incorrecto\n", 1, 10, 4);
-		if(idIngresado==listaTrabajo[i].idTrabajo)
+		utn_getNumero(&idIngresado, "\nIngrese el ID del trabajo a dar de baja: ", "Error, ID incorrecto\n", 1, 10, 4);
+		for(i=0; i<tam; i++)
 		{
-			listaTrabajo[i].isEmpty=LIBRE;
-			retorno=0;
-			break;
+			if(listaTrabajo[i].isEmpty==OCUPADO)
+			{
+				if(idIngresado==listaTrabajo[i].idTrabajo)
+				{
+					system("cls");
+					printf("Seguro que desea dar de baja la bicicleta '%s', ID Nro %d?\n"
+							"1.SI\n"
+							"2.NO\n", listaTrabajo[i].marcaBicicleta, listaTrabajo[i].idTrabajo);
+					utn_getNumero(&eleccion, "\nSelecione una opcion: ", "", 1, 2, 1);
+					if(eleccion==1)
+					{
+						listaTrabajo[i].isEmpty=LIBRE;
+						retorno=0;
+						system("cls");
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("No se dio de baja la bicicleta '%s', ID Nro %d!\n", listaTrabajo[i].marcaBicicleta, listaTrabajo[i].idTrabajo);
+					}
+
+				}
+			}
 		}
 	}
 
 	return retorno;
 }
 
-void ordenarTrabajos(eTrabajo listaTrabajo[], int tam)
+int ordenarTrabajos(eTrabajo listaTrabajo[], int tam)
 {
 	int i;
 	int j;
+	int retorno=-1;
 	eTrabajo auxTrabajo;
 
-	for(i=0; i<tam-1; i++)
+	if(listaTrabajo!=NULL && tam>0)
 	{
-		for(j=i+1; j<tam; j++)
+		for(i=0; i<tam-1; i++)
 		{
-			if(listaTrabajo[i].fechaTrabajo.anio < listaTrabajo[j].fechaTrabajo.anio)
+			for(j=i+1; j<tam; j++)
 			{
-				auxTrabajo=listaTrabajo[i];
-				listaTrabajo[i]=listaTrabajo[j];
-				listaTrabajo[j]=auxTrabajo;
+				if(listaTrabajo[i].fechaTrabajo.anio < listaTrabajo[j].fechaTrabajo.anio)
+				{
+					auxTrabajo=listaTrabajo[i];
+					listaTrabajo[i]=listaTrabajo[j];
+					listaTrabajo[j]=auxTrabajo;
+
+				}
 			}
 		}
+		mostrarListadoTrabajos(listaTrabajo, tam);
+		retorno=0;
 	}
+
+	return retorno;
 }
 
 int listadoTrabajosYServicios(eTrabajo listaTrabajo[], int tamTrabajo, eServicio listaServicios[], int tamServicio)

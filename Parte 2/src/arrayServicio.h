@@ -24,6 +24,6 @@ int inicializarServicios(eServicio *listaServicio, int tamServicio);
 
 int listadoServicios(eServicio *listaServicios, int tamServicio);
 
-
+int servicioMasCaro(eServicio *listaServicios, int tamServicio);
 
 #endif /* ARRAYSERVICIO_H_ */

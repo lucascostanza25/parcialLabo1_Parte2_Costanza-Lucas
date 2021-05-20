@@ -36,7 +36,7 @@ typedef struct
 eTrabajo pedirDatosTrabajo();
 
 /**
- * \brief
+ * \brief Inicializa todos los espacios del array en libres
  *
  * \pre
  * \post
@@ -46,81 +46,81 @@ eTrabajo pedirDatosTrabajo();
 void inicializarTrabajo(eTrabajo *listaTrabajo, int tam);
 
 /**
- * \brief
+ * \brief Muestra un solo trabajo
  *
  * \pre
  * \post
- * \param
+ * \param Se le pasa la estructura del trabajo
  */
 void mostrarUnTrabajo(eTrabajo);
 
 /**
- * \brief
+ * \brief Muestra el listado de trabajos en el array
  *
  * \pre
  * \post
  * \param listaTrabajo
  * \param tam tam del array
- * \return retorna estado
+ * \return retorna estado, si es -1 dio error, si es 0 no.
  */
 int mostrarListadoTrabajos(eTrabajo *listaTrabajo, int tam);
 
 /**
- * \brief
+ * \brief Da de alta un trabajo
  *
  * \pre
  * \post
- * \param listaTrabajo
- * \param tam del array
- * \param idTrabajo autoincremental
- * \return estado
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array
+ * \param Se le pasa mediante pasaje de referencia el id autoincremental
+ * \return Retorna el estado. si es 0 fue exitoso, si es -1 no hay mas espacio en el array
  */
 int altaTrabajo(eTrabajo *listaTrabajo, int tam, int *idTrabajo);
 
 /**
- * \brief
+ * \brief Permite buscar un espacio libre en el array
  *
  * \pre
  * \post
- * \param listaTrabajo disponibles
- * \param tam del array
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array
  * \return estado
  */
 int buscarTrabajoLibre(eTrabajo *listaTrabajo, int tam);
 
 /**
- * \brief
+ * \brief Permite modificar un trabajo o servicio
  *
  * \pre
  * \post
- * \param listaTrabajo
- * \param tam del array
- * \param listaServicio
- * \param tam del array servicio
- * \return
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array trabajo
+ * \param Se le pasa el array de servicio
+ * \param Se le pasa el tamaño del array de servicio
+ * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
  */
 int modificarTrabajo(eTrabajo *listaTrabajo, int tam, eServicio *listaServicio, int tamServicio);
 
 /**
- * \brief
+ * \brief Permite dar de baja un trabajo
  *
  * \pre
  * \post
- * \param listaTrabajo
- * \param tam del array
- * \return estado
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array
+ * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
  */
 int bajaTrabajo(eTrabajo *listaTrabajo, int tam);
 
 /**
- * \brief
+ * \brief Permite ordenar los trabajos por año
  *
  * \pre
  * \post
- * \param listaTrabajo
- * \param tam del array
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array
  */
-void ordenarTrabajos(eTrabajo *listaTrabajo, int tam);
+int ordenarTrabajos(eTrabajo *listaTrabajo, int tam);
 
 /**
  * \brief
@@ -131,11 +131,21 @@ void ordenarTrabajos(eTrabajo *listaTrabajo, int tam);
  * \param tamTrabajo
  * \param listaServicios
  * \param tamServicio
- * \return estado
+ * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
  */
-int listadoTrabajosYServicios(eTrabajo *listaTrabajo, int tamTrabajo, eServicio listaServicios[], int tamServicio);
+int listadoTrabajosYServicios(eTrabajo *listaTrabajo, int tamTrabajo, eServicio *listaServicios, int tamServicio);
 
+/**
+ * \brief
+ *
+ * \pre
+ * \post
+ * \param listaServicios
+ * \param tamServicio
+ * \param listaTrabajo
+ * \param tamTrabajo
+ * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
+ */
 int sumaPrecios(eServicio *listaServicios, int tamServicio, eTrabajo *listaTrabajo, int tamTrabajo);
-
 
 #endif /* ARRAYTRABAJOS_H_ */

@@ -43,7 +43,8 @@ int main(void) {
 				res=altaTrabajo(listaTrabajo, T, &idTrabajo);
 				if(res!=-1)
 				{
-					printf("Trabajo dado de alta exitosamente!\n");
+					system("cls");
+					printf("\nTrabajo dado de alta exitosamente!\n");
 				}
 				else
 				{
@@ -105,9 +106,9 @@ int main(void) {
 					switch(menuInformes)
 					{
 						case 1:
-							if(mostrarListadoTrabajos(listaTrabajo, T)!=-1)
+							if(ordenarTrabajos(listaTrabajo, T)!=-1)
 							{
-								printf("Listado de trabajos ordenados por año!\n");
+								printf("\nListado de trabajos ordenados por anio!\n");
 							}
 							else
 							{
@@ -118,7 +119,7 @@ int main(void) {
 						case 2:
 							if(listadoServicios(listaServicio, TS)!=-1)
 							{
-								printf("Lista de servicios!\n");
+								printf("\nLista de servicios!\n");
 							}
 							else
 							{
@@ -146,6 +147,10 @@ int main(void) {
 							{
 								printf("\nNo se pudo completar la suma!\n");
 							}
+						break;
+
+						case 5:
+							servicioMasCaro(listaServicio, TS);
 						break;
 					}
 				}

@@ -13,6 +13,7 @@
 #define LIBRE 0
 #define OCUPADO 1
 #include "arrayServicio.h"
+#include "arrayBicicleta.h"
 
 typedef struct
 {
@@ -24,9 +25,10 @@ typedef struct
 typedef struct
 {
 	int idTrabajo;
-	char marcaBicicleta[21];
-	int rodadoBicicleta;
+
 	int idServicio;
+
+	int idBicicleta;
 
 	eFecha fechaTrabajo;
 
@@ -99,7 +101,7 @@ int buscarTrabajoLibre(eTrabajo *listaTrabajo, int tam);
  * \param Se le pasa el tamaño del array de servicio
  * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
  */
-int modificarTrabajo(eTrabajo *listaTrabajo, int tam, eServicio *listaServicio, int tamServicio);
+int modificarTrabajo(eTrabajo *listaTrabajo, int tam, eServicio *listaServicio, int tamServicio, eBicicleta *listaBicicleta, int tamBicicleta);
 
 /**
  * \brief Permite dar de baja un trabajo
@@ -123,29 +125,74 @@ int bajaTrabajo(eTrabajo *listaTrabajo, int tam);
 int ordenarTrabajos(eTrabajo *listaTrabajo, int tam);
 
 /**
- * \brief
+ * \brief Muestra el listado de trabajos, bicicletas y servicios
  *
  * \pre
  * \post
- * \param listaTrabajo
- * \param tamTrabajo
- * \param listaServicios
- * \param tamServicio
- * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array trabajo
+ * \param Se le pasa el array de servicios
+ * \param Se le pasa el tamaño del array de servicios
+ * \param Se le pasa el array de bicicletas
+ * \param Se le pasa el tamaño del array de bicicletas
+ * \return Retorna 0 en caso de que pudo completar la accion o -1 si dio error
  */
-int listadoTrabajosYServicios(eTrabajo *listaTrabajo, int tamTrabajo, eServicio *listaServicios, int tamServicio);
+int listadoTrabajosYServicios(eTrabajo *listaTrabajo, int tamTrabajo, eServicio *listaServicios, int tamServicio, eBicicleta *listaBicicleta, int tamBicicleta);
 
 /**
- * \brief
+ * \brief Informa de la suma de los precios de todos los servicios prestados e ingresados
  *
  * \pre
  * \post
- * \param listaServicios
- * \param tamServicio
- * \param listaTrabajo
- * \param tamTrabajo
- * \return retorna 0 en caso de que pudo mostrar empleados o -1 si dio error
+ * \param Se le pasa el array de servicios
+ * \param Se le pasa el tamaño del array de servicios
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array trabajo
+ * \return Retorna 0 en caso de que pudo completar la accion o -1 si dio error
  */
 int sumaPrecios(eServicio *listaServicios, int tamServicio, eTrabajo *listaTrabajo, int tamTrabajo);
+
+/**
+ * \brief Ordena por marca las bicicletas ingresadas
+ *
+ * \pre
+ * \post
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array trabajo
+ * \param Se le pasa el array de servicios
+ * \param Se le pasa el tamaño del array de servicios
+ * \param Se le pasa el array de bicicletas
+ * \param Se le pasa el tamaño del array de bicicletas
+ * \return Retorna 0 en caso de que pudo completar la accion o -1 si dio error
+ */
+int ordenarTrabajosPorMarca(eTrabajo *listaTrabajo, int tamTrabajo, eServicio *listaServicios, int tamServicio, eBicicleta *listaBicicleta, int tamBicicleta);
+
+/**
+ * \brief Muestra la cantidad de bicicletas color Rojo que se trabajaron
+ *
+ * \pre
+ * \post
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array trabajo
+ * \param Se le pasa el array de bicicletas
+ * \param Se le pasa el tamaño del array de bicicletas
+ * \return Retorna 0 en caso de que pudo completar la accion o -1 si dio error
+ */
+int bicicletasRojo(eTrabajo *listaTrabajo, int tamTrabajo, eBicicleta *listaBicicleta, int tamBicicleta);
+
+/**
+ * \brief Muestra un listado de servicios con sus respectivas bicicletas trabajadas
+ *
+ * \pre
+ * \post
+ * \param Se le pasa el array de servicios
+ * \param Se le pasa el tamaño del array de servicios
+ * \param Se le pasa el array de bicicletas
+ * \param Se le pasa el tamaño del array de bicicletas
+ * \param Se le pasa el array de trabajo
+ * \param Se le pasa el tamaño del array trabajo
+ * \return Retorna 0 en caso de que pudo completar la accion o -1 si dio error
+ */
+int listadoServiciosBicis(eServicio *listaServicio, int tamServicio, eBicicleta *listaBicicleta, int tamBicicleta, eTrabajo *listaTrabajo, int tamTrabajo);
 
 #endif /* ARRAYTRABAJOS_H_ */

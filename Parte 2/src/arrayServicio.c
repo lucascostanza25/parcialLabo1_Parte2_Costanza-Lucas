@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <String.h>
 #include "arrayTrabajos.h"
+#include "arrayBicicleta.h"
+#include "UTN.h"
 
 #define LIBRE 0
 #define OCUPADO 1
@@ -42,46 +44,100 @@ int inicializarServicios(eServicio *listaServicio, int tamServicio)
 	return retorno;
 }
 
-int listadoServicios(eServicio *listaServicios, int tamServicio)
+int darDeBajaServicio(eServicio *listaServicio, int tamServicio)
+{
+	int i;
+	int retorno=-1;
+	int idIngresado;
+	int eleccion;
+
+	if(listaServicio!=NULL && tamServicio>0)
+	{
+		printf("-- DAR DE BAJA --\n"
+				"\nServicios disponibles para dar de baja!\n");
+		listadoServicios(listaServicio, tamServicio);
+		utn_getNumero(&idIngresado, "\nIngrese el ID del servicio a dar de baja: ", "Error, ID incorrecto\n", 20000, 20003, 4);
+		for(i=0; i<tamServicio; i++)
+		{
+			if(listaServicio[i].isEmpty==OCUPADO)
+			{
+				if(idIngresado==listaServicio[i].idServicio)
+				{
+					system("cls");
+					printf("Seguro que desea dar de baja el servicio ID Nro %d?\n"
+							"1.SI\n"
+							"2.NO\n", listaServicio[i].idServicio);
+					utn_getNumero(&eleccion, "\nSelecione una opcion: ", "", 1, 2, 1);
+					if(eleccion==1)
+					{
+						listaServicio[i].isEmpty=LIBRE;
+						retorno=0;
+						system("cls");
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("No se dio de baja el servicio ID Nro %d!\n", listaServicio[i].idServicio);
+					}
+
+				}
+			}
+		}
+	}
+
+	return retorno;
+}
+
+int listadoServicios(eServicio *listaServicio, int tamServicio)
 {
 	int i;
 	int retorno=-1;
 
 	for(i=0; i<tamServicio; i++)
 	{
-		printf("ID: %d ~ DESCRIPCION: %s ~ PRECIO: $%.2f\n",
-				listaServicios[i].idServicio,
-				listaServicios[i].descripcionServicio,
-				listaServicios[i].precioServicio);
-		retorno=0;
+		if(listaServicio[i].isEmpty==OCUPADO)
+		{
+			printf("ID: %d ~ DESCRIPCION: %s ~ PRECIO: $%.2f\n",
+					listaServicio[i].idServicio,
+					listaServicio[i].descripcionServicio,
+					listaServicio[i].precioServicio);
+			retorno=0;
+		}
 	}
 
 	return retorno;
 }
 
-int servicioMasCaro(eServicio *listaServicios, int tamServicio)
+int servicioMasTrabajos(eServicio *listaServicio, int tamServicio)
 {
 	int i;
 	int j;
 	int retorno=-1;
-	int flagPrecio=0;
-	float masCaro;
-	char descripcionCaro[11];
+	//int masServicios;
+	int contadorUno=0;
+	int contadorDos=0;
 
 	for(i=0; i<tamServicio-1; i++)
 	{
 		for(j=i+1; j<tamServicio; j++)
 		{
-			if(listaServicios[i].precioServicio > listaServicios[j].precioServicio || flagPrecio==0)
+			switch(listaServicio[i].idServicio)
 			{
-				masCaro=listaServicios[i].precioServicio;
-				strcpy(descripcionCaro, listaServicios[i].descripcionServicio);
-				flagPrecio=1;
+				case 20000:
+					contadorUno++;
+				break;
+
+				case 20001:
+					contadorDos++;
+				break;
+			}
+			if(contadorUno>contadorDos)
+			{
+
 			}
 		}
 	}
-
-	printf("El servicio mas caro es %s, con un precio de %.2f", descripcionCaro, masCaro);
 
 	return retorno;
 }

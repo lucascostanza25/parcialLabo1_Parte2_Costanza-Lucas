@@ -9,8 +9,10 @@ Division 1B
 #include <stdlib.h>
 #include "arrayTrabajos.h"
 #include "arrayServicio.h"
+#include "arrayBicicleta.h"
 #define T 5
 #define TS 4
+#define TB 5
 #define LIBRE 0
 #define OCUPADO 1
 
@@ -18,14 +20,18 @@ int main(void) {
 	setbuf(stdout, NULL);
 	eTrabajo listaTrabajo[T];
 	eServicio listaServicio[TS];
+	eBicicleta listaBicicleta[TB];
 	int menu;
 	int res;
 	int idTrabajo=0;
 	int flagMenu=0;
 	int menuInformes;
+	int menuBaja;
 	inicializarTrabajo(listaTrabajo, T);
 	inicializarServicios(listaServicio, TS);
-	hardcodeoServicios(listaServicio,TS);
+	hardcodeoServicios(listaServicio, TS);
+	inicializarBicicleta(listaBicicleta, TB);
+	hardcodeoBicicleta(listaBicicleta, TB);
 
 	do
 	{
@@ -44,7 +50,7 @@ int main(void) {
 				if(res!=-1)
 				{
 					system("cls");
-					printf("\nTrabajo dado de alta exitosamente!\n");
+					printf("Trabajo dado de alta exitosamente!\n");
 				}
 				else
 				{
@@ -57,7 +63,7 @@ int main(void) {
 			case 2:
 				if(flagMenu!=0)
 				{
-					if(modificarTrabajo(listaTrabajo, T, listaServicio, TS)!=-1)
+					if(modificarTrabajo(listaTrabajo, T, listaServicio, TS, listaBicicleta, TB)!=-1)
 					{
 						printf("Trabajo modificado con exito!\n");
 					}
@@ -76,13 +82,46 @@ int main(void) {
 			case 3:
 				if(flagMenu!=0)
 				{
-					if(bajaTrabajo(listaTrabajo, T)!=-1)
+					printf("-- DAR DE BAJA --\n"
+							"1.Dar de baja trabajo\n"
+							"2.Dar de baja servicio\n"
+							"3.Dar de baja bicicleta\n");
+					scanf("%d", &menuBaja);
+					system("cls");
+					switch(menuBaja)
 					{
-						printf("Trabajo dado de baja con exito!\n");
-					}
-					else
-					{
-						printf("Se cancelo la baja del trabajo!\n");
+						case 1:
+							if(bajaTrabajo(listaTrabajo, T)!=-1)
+							{
+								printf("Trabajo dado de baja con exito!\n");
+							}
+							else
+							{
+								printf("Se cancelo la baja del trabajo!\n");
+							}
+						break;
+
+						case 2:
+							if(darDeBajaServicio(listaServicio, TS)!=-1)
+							{
+								printf("Servicio dado de baja con exito!\n");
+							}
+							else
+							{
+								printf("Se cancelo la baja del servicio!\n");
+							}
+						break;
+
+						case 3:
+							if(bajaBicicleta(listaBicicleta, TB)!=-1)
+							{
+								printf("Bicicleta dada de baja con exito!\n");
+							}
+							else
+							{
+								printf("Se cancelo la baja de la bicicleta!\n");
+							}
+						break;
 					}
 				}
 				else
@@ -100,6 +139,9 @@ int main(void) {
 							"2.Mostrar listado de servicios\n"
 							"3.Mostrar listado de trabajos con sus servicios\n"
 							"4.Total gastado\n"
+							"5.Listado de trabajos ordenados por marca\n"
+							"6.Cantidad de bicicletas color rojo trabajadas\n"
+							"7.Listado de servicios y bicicletas\n"
 							"Seleccione una opcion: ");
 					scanf("%d", &menuInformes);
 					system("cls");
@@ -128,7 +170,7 @@ int main(void) {
 						break;
 
 						case 3:
-							if(listadoTrabajosYServicios(listaTrabajo, T, listaServicio, TS)!=-1)
+							if(listadoTrabajosYServicios(listaTrabajo, T, listaServicio, TS, listaBicicleta, TB)!=-1)
 							{
 								printf("\nListado de trabajos con sus servicios!\n");
 							}
@@ -150,7 +192,29 @@ int main(void) {
 						break;
 
 						case 5:
-							servicioMasCaro(listaServicio, TS);
+							ordenarTrabajosPorMarca(listaTrabajo, T, listaServicio, TS, listaBicicleta, TB);
+						break;
+
+						case 6:
+							if(bicicletasRojo(listaTrabajo, T, listaBicicleta, TB)!=-1)
+							{
+								printf("\nCantidad de bicicletas rojas trabajadas!\n");
+							}
+							else
+							{
+								printf("\nNo se trabajaron bicicletas rojas!\n");
+							}
+						break;
+
+						case 7:
+							if(listadoServiciosBicis(listaServicio, TS, listaBicicleta, TB, listaTrabajo, T)!=-1)
+							{
+								printf("\nListado de servicios con sus bicicletas ingresadas!\n");
+							}
+							else
+							{
+								printf("No se puede mostrar el listado!\n");
+							}
 						break;
 					}
 				}
